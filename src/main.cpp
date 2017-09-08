@@ -67,7 +67,7 @@ int main()
           static const double MaxSpeed = 60;
 
           if (speed < MaxSpeed)
-            g_throttle = std::min(1, g_throttle+0.2);
+            g_throttle = std::min(1.0, g_throttle+0.2);
           else
             g_throttle = 0;
            
