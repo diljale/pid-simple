@@ -15,7 +15,6 @@ double rad2deg(double x) { return x * 180 / pi(); }
 
 //global vaiables
 double g_throttle = 0.3;
-bool g_no_throttle = false;
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -71,12 +70,11 @@ int main()
           if (speed < MaxSpeed)
             g_throttle = std::min(1.0, g_throttle+0.2);
           else
-            g_throttle = 0;
+            g_throttle = 0.1;
            
-          if(cte > 0.2 && !g_no_throttle)
+          if(cte > 0.2)
           {
-            g_throttle = 0;
-            g_no_throttle = !g_no_throttle;
+            g_throttle = 0.1;
           }
           
           // DEBUG
