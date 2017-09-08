@@ -3,6 +3,7 @@
 #include "json.hpp"
 #include "PID.h"
 #include <math.h>
+#include <algorithm>
 
 // for convenience
 using json = nlohmann::json;
@@ -12,6 +13,8 @@ constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
 
+//global vaiables
+double g_throttle = 0.3;
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
 // else the empty string "" will be returned.
@@ -64,19 +67,19 @@ int main()
           static const double MaxSpeed = 60;
 
           if (speed < MaxSpeed)
-            throttle = min(1, throttle+0.2);
+            g_throttle = std::min(1, g_throttle+0.2);
           else
-            throttle = 0;
+            g_throttle = 0;
            
           if(cte > 0.2)
-            throttle = 0;
+            g_throttle = 0;
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << "Speed: "<< speed << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 0.3;
+          msgJson["throttle"] = g_throttle;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
