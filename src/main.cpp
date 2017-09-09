@@ -68,7 +68,7 @@ int main()
           
           pid.UpdateError(cte);
           steer_value = - pid.TotalError();
-          static const double MaxSpeed = 40;
+          static const double MaxSpeed = 30;
 
           if (speed < MaxSpeed)
             g_throttle = std::min(1.0, g_throttle+0.2);
