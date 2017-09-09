@@ -41,7 +41,7 @@ int main()
   // Tried using different values of "p" component and see thatcar oscillates a lot if it is too high and doesn't really recover if its too low
   // Tried playing with "i" component, this is good to stabilize vehicle and increase speed
   // tried playing with "d" component, this helps reduce oscillations and compensates for "p" component
-  pid.Init(.1, 0.05, 3.0);
+  pid.Init(0.1, 0.1, 3.0);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
