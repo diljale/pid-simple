@@ -15,7 +15,7 @@ double rad2deg(double x) { return x * 180 / pi(); }
 
 //global vaiables
 double g_throttle = 0.3;
-
+double g_steer_value = 0;
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
 // else the empty string "" will be returned.
@@ -41,7 +41,7 @@ int main()
   // Tried using different values of "p" component and see thatcar oscillates a lot if it is too high and doesn't really recover if its too low
   // Tried playing with "i" component, this is good to stabilize vehicle and increase speed
   // tried playing with "d" component, this helps reduce oscillations and compensates for "p" component
-  pid.Init(.1, 0.01, 4.0);
+  pid.Init(.1, 0.05, 5.0);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -68,7 +68,8 @@ int main()
           
           pid.UpdateError(cte);
           steer_value = - pid.TotalError();
-          
+          steer_value = (steer_value + g_steer_value) / 2.0;
+          g_steer_value = steer_value;
           static const double MaxSpeed = 40;
 
           if (speed < MaxSpeed)
