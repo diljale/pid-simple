@@ -68,8 +68,6 @@ int main()
           
           pid.UpdateError(cte);
           steer_value = - pid.TotalError();
-          steer_value = (steer_value + g_steer_value) / 2.0;
-          g_steer_value = steer_value;
           static const double MaxSpeed = 40;
 
           if (speed < MaxSpeed)
